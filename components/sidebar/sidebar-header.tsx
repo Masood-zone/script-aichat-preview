@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 import { LuPanelRight } from "react-icons/lu";
 
@@ -7,7 +8,7 @@ export default function SidebarHeader() {
     <div className="mb-4 px-2 ">
       <div className="flex relative gap-2 w-full items-center justify-between">
         <div className="flex items-center justify-between gap-4">
-          <img
+          <Image
             src="/logo.svg"
             alt="avatar"
             className="size-10 rounded shrink-0"

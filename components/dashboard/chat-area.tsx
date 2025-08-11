@@ -48,11 +48,14 @@ export default function ChatArea() {
           .updateMessage(assistantIndex, { content: accumulated });
         scheduleScrollToBottom();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Chat error", error);
       addMessage({
         role: "assistant",
-        content: error.message || "Error occurred",
+        content:
+          typeof error === "object" && error !== null && "message" in error
+            ? String((error as { message: unknown }).message)
+            : "Error occurred",
       });
     } finally {
       setIsLoading(false);

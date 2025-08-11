@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       const streamBody = new ReadableStream({
         async start(controller) {
           try {
-            for await (const part of completion as any) {
+            for await (const part of completion) {
               const delta = part?.choices?.[0]?.delta?.content || "";
               if (delta) {
                 controller.enqueue(encoder.encode(delta));
@@ -89,11 +89,11 @@ export async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (err: any) {
+  } catch (err) {
     console.error("Chat route error", err);
-    return new Response(
-      JSON.stringify({ error: err?.message || "Internal error" }),
-      { status: 500 }
-    );
+    const errorMessage = err instanceof Error ? err.message : "Internal error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+    });
   }
 }
